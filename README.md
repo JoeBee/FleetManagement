@@ -1,59 +1,156 @@
-# FleetManagement
+This is a modern Angular application built using the latest best practices and patterns for Angular operations.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.6.
 
-## Development server
+## Technical Stack
 
-To start a local development server, run:
+- **Framework**: Angular (Latest Version)
+- **UI Components**: Angular Material Design
+- **State Management**: Angular Signals
+- **Form Handling**: Angular Reactive Forms
+- **Architecture**: Standalone Components
 
-```bash
-ng serve
+
+## Project Structure
+src/
+├── app/
+│ ├── components/ # Standalone components
+│ ├── services/ # Application services
+│ ├── models/ # TypeScript interfaces/types
+│ ├── utils/ # Utility functions
+│ └── shared/ # Shared components/modules
+├── assets/ # Static assets
+└── styles/ # Global styles
+## Development Guidelines
+
+
+### Component Structure
+Each component follows a three-file structure:
+- `component-name.component.ts` - Component logic
+- `component-name.component.html` - Template
+- `component-name.component.scss` - Component-specific styles
+
+
+### Component Example
+```typescript
+@Component({
+  selector: 'app-vehicle-list',
+  standalone: true,
+  imports: [CommonModule, MatTableModule],
+  templateUrl: './vehicle-list.component.html',
+  styleUrls: ['./vehicle-list.component.scss']
+})
+export class VehicleListComponent {
+  // Component implementation
+}
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+### State Management
+The application uses Angular Signals for reactive state management:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```typescript
+export class VehicleService {
+  private vehicles = signal<Vehicle[]>([]);
+  
+  getVehicles() {
+    return this.vehicles.asReadonly();
+  }
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-```bash
-ng generate --help
+### Forms
+Reactive forms are used, where possible, throughout the application:
+
+```typescript
+export class VehicleFormComponent {
+  vehicleForm = new FormGroup({
+    id: new FormControl(''),
+    make: new FormControl('', Validators.required),
+    model: new FormControl('', Validators.required),
+    year: new FormControl('', Validators.required)
+  });
+}
 ```
 
-## Building
+## Getting Started
 
-To build the project run:
+1. **Prerequisites**
+   - Node.js (LTS version)
+   - npm or yarn
+   - Angular CLI
+
+2. **Installation**
+   ```bash
+   npm install
+   ```
+
+3. **Development Server**
+   ```bash
+   ng serve
+   ```
+   Navigate to `http://localhost:4200/`
+
+4. **Building for Production**
+   ```bash
+   ng build --configuration production
+   ```
+
+
+## Testing
+
+- Unit Tests: `ng test`
+- E2E Tests: `ng e2e`
+
+
+## Code Style and Best Practices
+
+1. **Component Organization**
+   - Use standalone components
+   - Follow single responsibility principle
+   - Implement proper component lifecycle management
+
+2. **State Management**
+   - Utilize Angular Signals for reactive state
+   - Keep state mutations predictable
+   - Implement proper error handling
+
+3. **Form Handling**
+   - Use reactive forms for complex form scenarios
+   - Implement proper validation
+   - Handle form submissions asynchronously
+
+4. **Material Design**
+   - Utilize Material Design components consistently
+   - Follow Material Design guidelines for spacing and typography
+   - Maintain consistent theming
+
+
+## Contributing
+
+1. Follow the established component structure
+2. Ensure all components are standalone
+3. Use Material Design components
+4. Implement reactive forms where applicable
+5. Utilize Angular Signals for state management
+6. Write unit tests for new features
+
+
+## Build and Deployment
+
+The application can be built using the Angular CLI:
 
 ```bash
-ng build
+ng build --configuration production
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The built artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Angular Documentation](https://angular.io/docs)
+- [Angular Material](https://material.angular.io/)
+- [Angular Signals Guide](https://angular.io/guide/signals)
+
+

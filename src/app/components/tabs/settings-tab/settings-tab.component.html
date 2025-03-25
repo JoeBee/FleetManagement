@@ -50,7 +50,7 @@
 
       <mat-form-field appearance="outline" class="fleet-id-field">
         <mat-label>Fleet ID</mat-label>
-        <input matInput formControlName="fleetId" placeholder="e.g. 2933374" maxlength="7">
+        <input matInput formControlName="fleetId" placeholder="e.g. 1234567" maxlength="7">
         <mat-error *ngIf="settingsForm.get('fleetId')?.hasError('pattern')">
           Fleet ID must be a 7-digit number
         </mat-error>

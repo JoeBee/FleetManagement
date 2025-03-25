@@ -41,6 +41,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/FleetManagement/",
               "budgets": [
                 {
                   "type": "initial",
@@ -99,6 +100,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
