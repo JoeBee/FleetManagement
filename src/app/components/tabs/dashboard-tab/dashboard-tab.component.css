@@ -1,0 +1,93 @@
+/* Add styles specific to the Dashboard tab here */
+
+.dashboard-container {
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    height: calc(100vh - 100px);
+    /* Adjust the 64px based on your header/tab height */
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.left-column {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.dashboard-status-div {
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    word-wrap: break-word;
+    padding: 10px;
+
+    flex: 1;
+    border: 1px solid darkgray;
+    /* padding-left: 16px; */
+    background-color: #fafafa;
+}
+
+.checks-container {
+    margin-top: 0px;
+}
+
+.check-item {
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.check-name {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.check-status {
+    color: #666;
+}
+
+.check-error {
+    background-color: #ffd6d6 !important;
+    border: 1px solid #ffb3b3 !important;
+}
+
+.check-icon {
+    color: #4caf50;
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    vertical-align: text-bottom;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 16px;
+    /* background-color: red; */
+}
+
+/* ---------------------- */
+
+.btn-form-field {
+    /*  Top, Right, Bottom, Left */
+    margin: 0 10px 0 10px;
+    width: 95%;
+}
+
+mat-form-field.actionDropdown-form-field {
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
+    display: block;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+
+.api-error {
+    background-color: yellow;
+    color: red;
+}

@@ -1,0 +1,68 @@
+<div class="dashboard-container">
+  <div class="left-column">
+    <button mat-raised-button color="primary" class="btn-form-field"
+      [disabled]="!selectedAction || !hasImos || !hasFleetLookup || !hasValidApiKey || !hasValidFleetIds_settings"
+      (click)="onSetStatuses()">
+      Set Statuses
+    </button>
+
+    <mat-form-field [class.check-error]="!selectedAction" class="actionDropdown-form-field">
+      <mat-select [(ngModel)]="selectedAction" class="actionDropdown-select">
+        <mat-option class="actionDropdown-option" value="">Select Action</mat-option>
+        <mat-option class="actionDropdown-option" value="delete:1">Remove Vessels From Fleet</mat-option>
+        <mat-option class="actionDropdown-option" value="active:0">Make Vessels Inactive</mat-option>
+        <mat-option class="actionDropdown-option" value="active:1">Activate Vessels</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- 
+    'Remove Vessels From Fleet'		'delete:1'
+    'Make Vessels Inactive		'active:0'
+    Activate Vessels		'active:1' 
+    -->
+
+    <div class="checks-container">
+      <div class="check-item" [class.check-error]="!hasImos">
+        <span class="check-name">IMOs:</span>
+        <span class="check-status">
+          <mat-icon *ngIf="hasImos" class="check-icon">check_circle</mat-icon>
+          <span *ngIf="!hasImos">Missing</span>
+        </span>
+      </div>
+
+      <!-- Fleet/IMO Lookup tab -->
+      <div class="check-item" [class.check-error]="!hasFleetLookup">
+        <span class="check-name">Fleet/IMO Lookup:</span>
+        <span class="check-status">
+          <mat-icon *ngIf="hasFleetLookup" class="check-icon">check_circle</mat-icon>
+          <span *ngIf="!hasFleetLookup">Missing</span>
+        </span>
+      </div>
+
+      <!-- Settings tab -->
+      <div class="check-item" [class.check-error]="!hasValidApiKey">
+        <span class="check-name">API Key:</span>
+        <span class="check-status">
+          <mat-icon *ngIf="hasValidApiKey" class="check-icon">check_circle</mat-icon>
+          <span *ngIf="!hasValidApiKey">Missing</span>
+        </span>
+      </div>
+
+      <!-- Settings tab -->
+      <div class="check-item" [class.check-error]="!hasValidFleetIds_settings">
+        <span class="check-name">Fleet IDs:</span>
+        <span class="check-status">
+          <mat-icon *ngIf="hasValidFleetIds_settings" class="check-icon">check_circle</mat-icon>
+          <span *ngIf="!hasValidFleetIds_settings">Missing</span>
+        </span>
+      </div>
+
+
+    </div>
+
+  </div>
+
+  <div class="dashboard-status-div">
+    <div *ngIf="statusMessage" [innerHTML]="statusMessage"></div>
+  </div>
+</div>

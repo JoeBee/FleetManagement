@@ -1,0 +1,33 @@
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Row</th>
+                <th>IMO ({{getImoCount()}})</th>
+                <th>Fleet</th>
+                <th>Result</th>
+                <th>URL End Point</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of rows">
+                <td>{{row.rowNumber}}</td>
+                <td>
+                    <input type="text" [(ngModel)]="row.imo" (paste)="onPaste($event)" (input)="onImoInput($event, row)"
+                        maxlength="7" pattern="\d*">
+                </td>
+                <td>
+                    <div [innerHTML]="row.fleet"></div>
+                </td>
+                <td>
+                    <div [innerHTML]="row.result"></div>
+                </td>
+                <td>
+                    <div><a [href]="row.urlEndPoint" target="_blank">{{row.urlEndPoint}}</a></div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="status-message">{{statusMessage}}</div>

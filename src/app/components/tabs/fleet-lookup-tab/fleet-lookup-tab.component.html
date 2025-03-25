@@ -1,0 +1,32 @@
+<!-- Data processing spinner for large data sets -->
+
+<div *ngIf="isLoading" class="processing-overlay">
+  <div class="processing-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span class="processing-text">Processing large dataset...</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="main-container">
+  <!-- Row counter display at the top -->
+  <div class="row-counter-display">
+    <span class="row-counter-label">Number of rows: </span>
+    <span class="row-counter-value">{{formatNumberWithCommas(getTextAreaRowCount())}}</span>
+  </div>
+
+  <!-- Reactive form approach -->
+  <form [formGroup]="fleetLookupForm" class="form-container">
+    <mat-form-field class="textarea-field">
+      <mat-label>Fleet/IMO Data</mat-label>
+      <textarea matInput formControlName="fleetImoData" [rows]="20" class="textarea-content"
+        placeholder="Paste Fleet/IMO data here...">
+      </textarea>
+    </mat-form-field>
+  </form>
+
+  <div class="save-button-container">
+    <button mat-raised-button class="save-button" color="primary" (click)="saveFleetLookupData()">
+      Save Fleet/IMO Lookup Data
+    </button>
+  </div>
+</div>

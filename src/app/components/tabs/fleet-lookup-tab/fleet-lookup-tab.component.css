@@ -1,0 +1,152 @@
+/* Add styles specific to the Fleet Num/IMO Lookup tab here */
+
+.mat-table {
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+::ng-deep .mdc-text-field--filled {
+  background-color: transparent !important;
+}
+
+/* Row counter at the top */
+.row-counter-display {
+  background-color: #f5f5f5;
+  padding: 10px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Info icon styles moved from inline */
+.info-icon {
+  margin-left: auto;
+  /* This pushes the icon to the right */
+  cursor: pointer;
+}
+
+.row-counter-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.row-counter-value {
+  font-weight: bold;
+  color: #1976d2;
+  margin-left: 5px;
+  font-size: 18px;
+}
+
+/* Loading spinner overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+}
+
+/* Processing overlay for large datasets */
+.processing-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.processing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.processing-text {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+/* Main container */
+.main-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: calc(100vh - 25px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Top section with textarea and counter */
+.form-container {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Textarea field */
+.textarea-field {
+  width: 100%;
+  max-height: calc(100vh - 100px);
+}
+
+.textarea-content {
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* Counter section */
+.counter-container {
+  margin-left: 16px;
+}
+
+/* .counter-field {
+  width: 100px;
+} */
+
+
+.save-button:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.save-button::before {
+  content: '💾 ';
+  margin-right: 4px;
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 16px;
+}
+
+/* GOOD  */
+/* :host ::ng-deep .mdc-text-field--filled {
+  background-color: transparent !important;
+} */

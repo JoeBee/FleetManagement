@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Fleet Management Rules
+
+- This is an Angular application.
+- Use standalone components.
+- Use Material Design Components.
+- Use reactive forms where possible.
+- Use Angular Signals where possible.
+- All components should be broken into HTML, CSS and TS files.

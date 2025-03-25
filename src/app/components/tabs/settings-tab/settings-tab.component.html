@@ -1,0 +1,84 @@
+<div class="settings-container">
+  <h2>Settings
+    <!-- <button mat-icon-button class="info-icon" (click)="openInfoDialog(DialogType.SETTINGS)">
+      <mat-icon>info</mat-icon>
+    </button> -->
+  </h2>
+
+  <!-- Reactive form for API Key -->
+  <form [formGroup]="settingsForm">
+    <div class="input-with-button">
+      <mat-form-field appearance="outline" class="api-key-field">
+        <mat-label>API Key</mat-label>
+        <input matInput formControlName="apiKey" placeholder="Enter API Key" maxlength="75">
+      </mat-form-field>
+    </div>
+
+    <div class="save-button-container">
+      <button mat-raised-button class="save-button" (click)="saveApiKey()" [disabled]="!isApiKeySaveEnabled()">
+        Save API Key
+      </button>
+    </div>
+
+    <h3>Fleet Entries</h3>
+    <table class="fleet-entries-table" *ngIf="fleetFleetIdTxtAreaAry.length > 0">
+      <thead>
+        <tr>
+          <th>Fleet #</th>
+          <th>Fleet ID</th>
+          <th>Remove Fleet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of fleetFleetIdTxtAreaAry; let i = index">
+          <td>Fleet {{entry.fleetNum}}</td>
+          <td>{{entry.fleetId}}</td>
+          <td>
+            <button mat-icon-button color="warn" *ngIf="i === fleetFleetIdTxtAreaAry.length - 1"
+              (click)="removeFleetEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="add-fleet-container">
+      <div class="fleet-number-label">
+        <span>Fleet #: {{ fleetFleetIdTxtAreaAry.length + 1 }}</span>
+      </div>
+
+      <mat-form-field appearance="outline" class="fleet-id-field">
+        <mat-label>Fleet ID</mat-label>
+        <input matInput formControlName="fleetId" placeholder="e.g. 2933374" maxlength="7">
+        <mat-error *ngIf="settingsForm.get('fleetId')?.hasError('pattern')">
+          Fleet ID must be a 7-digit number
+        </mat-error>
+      </mat-form-field>
+
+      <!-- The "Add Fleet" button -->
+      <button mat-raised-button color="primary" (click)="addFleetEntry()"
+        [disabled]="settingsForm.get('fleetId')?.invalid">
+        Add Fleet
+      </button>
+    </div>
+
+    <div class="save-button-container">
+      <button mat-raised-button class="save-button" (click)="saveFleets()" [disabled]="!isFleetsSaveEnabled()">
+        Save Fleets
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  h2 {
+    display: flex;
+    align-items: center;
+  }
+
+  .info-icon {
+    margin-left: auto;
+    cursor: pointer;
+  }
+</style>
