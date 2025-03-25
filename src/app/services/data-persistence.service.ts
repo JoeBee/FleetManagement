@@ -16,36 +16,33 @@ export class DataPersistenceService {
     // -----------------------------------------`
     // *** Long Term Data Storage
 
-    readonly SETTINGS_API_KEY = 'HiMarineCompanyApiKey';
-    readonly SETTINGS_FLEET_IDS = 'HiMarineCompanyFleetIds';
-    readonly SETTINGS_FLEET_IMO_LOOKUP = 'HiMarineCompanyFleetImoLookup'
+    readonly STORAGE_KEY_API = '@fleet-mgmt/api-key';
+    readonly STORAGE_KEY_FLEET_IDS = '@fleet-mgmt/fleet-ids';
+    readonly STORAGE_KEY_FLEET_IMO_LOOKUP = '@fleet-mgmt/fleet-imo-lookup';
 
     // API Key - Settings
     saveApiKeySettings(apiKey: string): void {
-        localStorage.setItem(this.SETTINGS_API_KEY, apiKey); // JSON.stringify(myDataObject));
-        this.dataService._apiKey_settings = apiKey;
-        console.log('** ==> saveApiKeySettings', apiKey);
+        localStorage.setItem(this.STORAGE_KEY_API, apiKey); // JSON.stringify(myDataObject));
+        this.dataService.apiKey_settings = apiKey;
     }
 
     getApiKeySettings(): string {
-        const storedData = localStorage.getItem(this.SETTINGS_API_KEY);
-        this.dataService._apiKey_settings = storedData ? storedData : '';
-        return this.dataService._apiKey_settings
+        const storedData = localStorage.getItem(this.STORAGE_KEY_API);
+        this.dataService.apiKey_settings = storedData ? storedData : '';
+        return this.dataService.apiKey_settings
     }
 
 
     // Fleet IDs - Settings
     saveFleetIdsSettings(fleetIdsObjAry: FleetIDSettingsObj[]): void {
-        console.log('** ==> saveFleetIdsSettings', fleetIdsObjAry);
-        console.log('** ==> saveFleetIdsSettings', JSON.stringify(fleetIdsObjAry));
-        localStorage.setItem(this.SETTINGS_FLEET_IDS, JSON.stringify(fleetIdsObjAry));
-        this.dataService._fleetFleetId_settingsAryObj = fleetIdsObjAry;
+        localStorage.setItem(this.STORAGE_KEY_FLEET_IDS, JSON.stringify(fleetIdsObjAry));
+        this.dataService.fleetFleetId_settingsAryObj = fleetIdsObjAry;
     }
 
     getFleetIdsSettings(): FleetIDSettingsObj[] {
-        const storedData = localStorage.getItem(this.SETTINGS_FLEET_IDS);
-        this.dataService._fleetFleetId_settingsAryObj = storedData ? JSON.parse(storedData) : [];
-        return this.dataService._fleetFleetId_settingsAryObj
+        const storedData = localStorage.getItem(this.STORAGE_KEY_FLEET_IDS);
+        this.dataService.fleetFleetId_settingsAryObj = storedData ? JSON.parse(storedData) : [];
+        return this.dataService.fleetFleetId_settingsAryObj
     }
 
     // ---
@@ -60,19 +57,16 @@ export class DataPersistenceService {
             };
 
             request.onsuccess = (event) => {
-                console.log('IndexedDB opened successfully');
                 const db = (event.target as IDBOpenDBRequest).result;
                 resolve(db);
             };
 
             request.onupgradeneeded = (event) => {
-                console.log('Creating or upgrading IndexedDB');
                 const db = (event.target as IDBOpenDBRequest).result;
 
                 // Create object store if it doesn't exist
                 if (!db.objectStoreNames.contains(this.STORE_NAME)) {
                     db.createObjectStore(this.STORE_NAME, { keyPath: 'id' });
-                    console.log(`Object store ${this.STORE_NAME} created`);
                 }
             };
         });
@@ -95,7 +89,6 @@ export class DataPersistenceService {
 
     // Save to IndexedDB (browser storage)
     public async saveFleetImoLookupData(fleetimolookupdata: string): Promise<any> {
-        console.log('** ==> saveFleetImoLookupData', fleetimolookupdata);
 
         try {
             const db = await this.openIndexedDb();
@@ -109,7 +102,7 @@ export class DataPersistenceService {
             });
 
             // Update in-memory data
-            this.dataService._fleetImoLookupString = fleetimolookupdata;
+            this.dataService.fleetImoLookupString = fleetimolookupdata;
 
             // Close the db connection
             db.close();
@@ -118,7 +111,7 @@ export class DataPersistenceService {
         } catch (error) {
             console.error('Error saving to IndexedDB', error);
             // Fall back to memory storage if IndexedDB fails
-            this.dataService._fleetImoLookupString = fleetimolookupdata;
+            this.dataService.fleetImoLookupString = fleetimolookupdata;
             return Promise.resolve();
         }
     }
@@ -145,13 +138,13 @@ export class DataPersistenceService {
             db.close();
 
             // Update in-memory data
-            this.dataService._fleetImoLookupString = data;
+            this.dataService.fleetImoLookupString = data;
 
             return data;
         } catch (error) {
             console.error('Error reading from IndexedDB', error);
             // Return the in-memory data as fallback
-            return this.dataService._fleetImoLookupString;
+            return this.dataService.fleetImoLookupString;
         }
     }
 }   

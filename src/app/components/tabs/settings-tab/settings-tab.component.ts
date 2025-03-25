@@ -46,7 +46,7 @@ export class SettingsTabComponent implements OnInit {
     private dataPersistence: DataPersistenceService,
     private dialog: MatDialog
   ) {
-    console.log('** CONSTRUCTOR ==> SettingsTabComponent constructor');
+    // console.log('** CONSTRUCTOR ==> SettingsTabComponent constructor');
   }
 
   ngOnInit() {
@@ -102,7 +102,6 @@ export class SettingsTabComponent implements OnInit {
 
   // Save fleet entries
   saveFleets() {
-    console.log('** ==> saveFleets', this.fleetFleetIdTxtAreaAry);
     if (this.fleetFleetIdTxtAreaAry.length > 0) {
       this.dataPersistence.saveFleetIdsSettings(this.fleetFleetIdTxtAreaAry);
       this.fleetEntriesDirty = false;
@@ -111,11 +110,11 @@ export class SettingsTabComponent implements OnInit {
 
   // Load settings from data service
   refreshSettings() {
-    const apiKey = this.dataService._apiKey_settings;
+    const apiKey = this.dataService.apiKey_settings;
     this.settingsForm.get('apiKey')?.setValue(apiKey);
 
     // Load fleet entries
-    const fleetEntries = this.dataService._fleetFleetId_settingsAryObj;
+    const fleetEntries = this.dataService.fleetFleetId_settingsAryObj;
     console.log('** ==> refreshSettings', fleetEntries);
     if (fleetEntries.length > 0) {
       this.fleetFleetIdTxtAreaAry = fleetEntries;

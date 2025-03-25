@@ -23,17 +23,17 @@ export class AppInitializerService {
             try {
                 // Load API key from localStorage
                 const apiKey = this.dataPersistence.getApiKeySettings();
-                this.dataService._apiKey_settings = apiKey;
+                this.dataService.apiKey_settings = apiKey;
 
                 // Load fleet IDs from localStorage
                 const fleetIds = this.dataPersistence.getFleetIdsSettings();
-                this.dataService._fleetFleetId_settingsAryObj = fleetIds;
+                this.dataService.fleetFleetId_settingsAryObj = fleetIds;
 
                 // Load fleetImoLookup data from IndexedDB
                 try {
                     const fleetLookupData = await this.dataPersistence.getFleetImoLookupData();
                     if (fleetLookupData) {
-                        this.dataService._fleetImoLookupString = fleetLookupData;
+                        this.dataService.fleetImoLookupString = fleetLookupData;
                         // TODO: Parse the string into FleetImoLookupObj[] if needed
                     }
                 } catch (error) {

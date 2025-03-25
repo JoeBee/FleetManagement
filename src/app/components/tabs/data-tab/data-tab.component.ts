@@ -23,7 +23,7 @@ export class DataTabComponent {
   statusMessage = '';
 
   constructor(private dataService: DataService, private statusProcessor: StatusProcessor) {
-    console.log('** CONSTRUCTOR ==> DataTabComponent constructor');
+    // console.log('** CONSTRUCTOR ==> DataTabComponent constructor');
     this.statusProcessor.statusUpdated.subscribe((message: string) => {
       this.statusMessage = this.statusMessage + '\n' + message;
     });

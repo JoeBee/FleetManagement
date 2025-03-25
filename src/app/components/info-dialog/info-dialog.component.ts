@@ -41,7 +41,7 @@ export class InfoDialogComponent {
     public dialogRef: MatDialogRef<InfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InfoDialogData
   ) {
-    console.log('* InfoDialogComponent constructor', data);
+    // console.log('* InfoDialogComponent constructor', data);
 
 
     // If direct title/content is provided, use that

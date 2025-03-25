@@ -84,12 +84,12 @@ export class DashboardTabComponent implements OnInit {
   // Code run when Dashboard Tab is loaded
   // Called from constructor as well as tabs.component -> onTabChanged
   refreshDashboard() {
-    const hasImoData = this.dataService._imoDataColumnsAryObj && this.dataService._imoDataColumnsAryObj.length > 0;
+    const hasImoData = this.dataService.imoDataColumnsAryObj && this.dataService.imoDataColumnsAryObj.length > 0;
 
     this.hasImos = hasImoData; // Data tab
-    this.hasValidApiKey = !!this.dataService._apiKey_settings; // Settings tab
-    this.hasFleetLookup = this.dataService._fleetImoLookupString.length > 0; // Fleet/IMO Lookup tab 
-    this.hasValidFleetIds_settings = this.dataService._fleetFleetId_settingsAryObj.length > 4; // Settings tab
+    this.hasValidApiKey = !!this.dataService.apiKey_settings; // Settings tab
+    this.hasFleetLookup = this.dataService.fleetImoLookupString.length > 0; // Fleet/IMO Lookup tab 
+    this.hasValidFleetIds_settings = this.dataService.fleetFleetId_settingsAryObj.length > 4; // Settings tab
   }
 
 }

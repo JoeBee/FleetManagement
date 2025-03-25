@@ -18,11 +18,11 @@ export class StatusProcessor {
     async processStatuses(selectedAction: string) {
 
         // ** Data Tab - IMOs to be processed **
-        const imosAry: string[] = this.dataService._imosAry;
+        const imosAry: string[] = this.dataService.imosAry;
 
         // ** Fleet/IMO Lookup Tab **
         let fleetImoLookupAry: FleetImoLookupObj[] = [];
-        const fleetImoLookupString = this.dataService._fleetImoLookupString
+        const fleetImoLookupString = this.dataService.fleetImoLookupString
             .toLowerCase()
             .replace(' ', '') // Remove all spaces
             .replace('fleet', '') // Replace multiple spaces with a single space
@@ -47,9 +47,9 @@ export class StatusProcessor {
 
 
         const fleetFleetIdSettingsObjAry: FleetIDSettingsObj[] =
-            this.dataService._fleetFleetId_settingsAryObj;
+            this.dataService.fleetFleetId_settingsAryObj;
 
-        const dataColumns = this.dataService._imoDataColumnsAryObj;
+        const dataColumns = this.dataService.imoDataColumnsAryObj;
 
 
         // Loop over each fleetImoLookup object to update with fleetId
@@ -57,12 +57,10 @@ export class StatusProcessor {
         let loopCount = 0;
         for (const fleetImoObj of imoFleetObjAry) {
             loopCount++;
-            console.log('** ==> ', loopCount + '/' + imoFleetObjAry.length, fleetImoObj.CALCULATED_fleetNum, fleetImoObj.imo);
+            // console.log('** ==> ', loopCount + '/' + imoFleetObjAry.length, fleetImoObj.CALCULATED_fleetNum, fleetImoObj.imo);
             statusMessageString = '';
             statusMessageString += `${loopCount}/${imoFleetObjAry.length}. IMO <b>${fleetImoObj.imo}</b>`;
-            // this.statusUpdated.emit(`Processing IMO <b>${fleetImoObj.imo}</b> (${loopCount}/${imoFleetObjAry.length})<br>`);
             const fleetidObj: FleetIDSettingsObj | undefined = fleetFleetIdSettingsObjAry.find(x => x.fleetNum === fleetImoObj.CALCULATED_fleetNum);
-            // const dataRow = dataColumns.find(row => row.imo === fleetImoObj.imo);
             const dataRow = dataColumns.find(row => row.rowNumber === loopCount);
 
             if (fleetidObj) {
@@ -71,13 +69,11 @@ export class StatusProcessor {
                     const urlEndPoint = this.dataService.getUrlEndPoint(fleetImoObj.imo, selectedAction, fleetidObj.fleetId);
 
                     dataRow.urlEndPoint = urlEndPoint;
-                    // statusMessageString += urlEndPoint + '<br>';
-                    // this.statusUpdated.emit(statusMessageString);
 
                     // Make HTTP request to urlEndPoint and handle XML response
                     const response = await fetch(urlEndPoint);
                     const xmlData = await response.text();
-                    console.log('*** xmlData', xmlData);
+                    // console.log('*** xmlData', xmlData);
 
 
                     const error = this.parseXmlResponse(xmlData);
@@ -90,8 +86,6 @@ export class StatusProcessor {
                     else {
                         dataRow.result = `${xmlData}`
                         statusMessageString += ` - ${xmlData}`;
-                        // Emit the XML data to be displayed in the right column
-                        // this.dashboardService.updateRightColumnContent(xmlData);
                     }
                 }
             }

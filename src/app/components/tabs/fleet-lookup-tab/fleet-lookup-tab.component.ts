@@ -42,7 +42,7 @@ export class FleetLookupTabComponent implements OnInit {
     private dataPersistence: DataPersistenceService
     // private dialog: MatDialog
   ) {
-    console.log('** CONSTRUCTOR ==> FleetLookupTabComponent constructor');
+    // console.log('** CONSTRUCTOR ==> FleetLookupTabComponent constructor');
   }
 
   ngOnInit() {
@@ -106,12 +106,12 @@ export class FleetLookupTabComponent implements OnInit {
   refreshFleetLookup() {
     this.isLoading = true;
 
-    const lineCount = this.dataService._fleetImoLookupString ?
-      this.dataService._fleetImoLookupString.split('\n')
+    const lineCount = this.dataService.fleetImoLookupString ?
+      this.dataService.fleetImoLookupString.split('\n')
         .filter(line => line.trim() !== '').length : 0;
 
     this.fleetLookupForm.get('fleetImoData')?.setValue(
-      this.dataService._fleetImoLookupString);
+      this.dataService.fleetImoLookupString);
 
     setTimeout(() => {
       this.isLoading = false;
