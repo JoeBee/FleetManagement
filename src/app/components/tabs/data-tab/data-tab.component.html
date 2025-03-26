@@ -1,30 +1,52 @@
+<mat-expansion-panel class="thin-panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Actions
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="actions-row">
+        <button mat-raised-button color="warn" (click)="removeSuccessful()" [disabled]="getImoCount() <=0">
+            Remove Successful
+        </button>
+
+        <button mat-raised-button class="light-red-button reset-button" (click)="resetGrid()">
+            Reset Grid
+        </button>
+    </div>
+</mat-expansion-panel>
+
 <div class="table-container">
     <table>
         <thead>
             <tr>
                 <th>Row</th>
                 <th>IMO ({{getImoCount()}})</th>
+                <th>&nbsp;</th>
                 <th>Fleet</th>
-                <th>Result</th>
+                <th>Response</th>
                 <th>URL End Point</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of rows">
-                <td>{{row.rowNumber}}</td>
-                <td>
-                    <input type="text" [(ngModel)]="row.imo" (paste)="onPaste($event)" (input)="onImoInput($event, row)"
-                        maxlength="7" pattern="\d*">
-                </td>
-                <td>
-                    <div [innerHTML]="row.fleet"></div>
-                </td>
-                <td>
-                    <div [innerHTML]="row.result"></div>
-                </td>
-                <td>
-                    <div><a [href]="row.urlEndPoint" target="_blank">{{row.urlEndPoint}}</a></div>
+            <tr *ngFor="let imoRow of imoRows">
+                <td>{{imoRow.rowNumber}}</td>
 
+                <td>
+                    <input type="text" [(ngModel)]="imoRow.imo" (paste)="onPaste($event)"
+                        (input)="onImoInput($event, imoRow)" maxlength="7" pattern="\d*">
+                </td>
+                <td>
+                    <mat-icon *ngIf="imoRow.result === 'success'" class="success-icon">check_circle</mat-icon>
+                    <mat-icon *ngIf="imoRow.result === 'error'" class="error-icon">error</mat-icon>
+                </td>
+                <td>
+                    <div [innerHTML]="imoRow.fleet"></div>
+                </td>
+                <td>
+                    <div [innerHTML]="imoRow.response"></div>
+                </td>
+                <td>
+                    <div><a [href]="imoRow.urlEndPoint" target="_blank">{{imoRow.urlEndPoint}}</a></div>
                 </td>
             </tr>
         </tbody>

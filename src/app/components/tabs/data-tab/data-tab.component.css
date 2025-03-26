@@ -51,6 +51,7 @@ input:focus {
     background-color: #f0f0f0;
 }
 
+/*  ------------------------ */
 
 /* Row number */
 th:nth-child(1),
@@ -68,11 +69,7 @@ td:nth-child(2) {
     background-color: #f5f5f5;
 }
 
-th:nth-child(2) {
-    background-color: #f5f5f5;
-    /* Ensure header matches */
-}
-
+th:nth-child(2),
 td:nth-child(2) input {
     background-color: #f5f5f5;
 }
@@ -82,20 +79,77 @@ td:nth-child(2) input:focus {
     background-color: #e8e8e8;
 }
 
-/* Fleet */
+/* Result  */
 th:nth-child(3),
 td:nth-child(3) {
-    width: 100px;
+    width: 25px;
 }
 
-/* Result */
+/* Fleet */
 th:nth-child(4),
 td:nth-child(4) {
-    width: 250px;
+    width: 90px;
+}
+
+/* Response */
+th:nth-child(5),
+td:nth-child(5) {
+    width: 200px;
+    padding-left: 4px;
 }
 
 /* URL */
-th:nth-child(5),
-td:nth-child(5) {
+th:nth-child(6),
+td:nth-child(6) {
     padding-left: 4px;
+}
+
+/*  ------------------------ */
+/* Top of page */
+.actions-row {
+    position: relative;
+    display: flex;
+    gap: 8px;
+}
+
+mat-expansion-panel {
+    margin-bottom: 1rem;
+}
+
+/* Result Icons */
+.success-icon {
+    color: #4CAF50;
+}
+
+.error-icon {
+    color: #f44336;
+}
+
+.thin-panel {
+    .mat-expansion-panel-header {
+        height: 40px;
+        /* Reduced from default 48px */
+    }
+
+    .mat-expansion-panel-header-title {
+        margin: 0;
+        font-size: 14px;
+    }
+}
+
+.reset-button {
+    margin-left: auto;
+    /* This pushes the button to the right */
+}
+
+.light-red-button {
+    background-color: #ffcdd2 !important;
+    /* Light red color */
+    color: #d32f2f !important;
+    /* Darker red for text contrast */
+}
+
+.light-red-button:hover {
+    background-color: #ef9a9a !important;
+    /* Slightly darker on hover */
 }

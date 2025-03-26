@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { DataService, FleetIDSettingsObj, FleetImoLookupObj } from './data.service';
-import { DomSanitizer } from '@angular/platform-browser';
+// import { DomSanitizer } from '@angular/platform-browser';
 
 export interface imoFleetObj {
     imo: string; // Ship IMO number
@@ -57,7 +57,6 @@ export class StatusProcessor {
         let loopCount = 0;
         for (const fleetImoObj of imoFleetObjAry) {
             loopCount++;
-            // console.log('** ==> ', loopCount + '/' + imoFleetObjAry.length, fleetImoObj.CALCULATED_fleetNum, fleetImoObj.imo);
             statusMessageString = '';
             statusMessageString += `${loopCount}/${imoFleetObjAry.length}. IMO <b>${fleetImoObj.imo}</b>`;
             const fleetidObj: FleetIDSettingsObj | undefined = fleetFleetIdSettingsObjAry.find(x => x.fleetNum === fleetImoObj.CALCULATED_fleetNum);
@@ -73,18 +72,21 @@ export class StatusProcessor {
                     // Make HTTP request to urlEndPoint and handle XML response
                     const response = await fetch(urlEndPoint);
                     const xmlData = await response.text();
-                    // console.log('*** xmlData', xmlData);
+                    console.log('*** response', response);
+                    console.log('*** xmlData', xmlData);
 
 
-                    const error = this.parseXmlResponse(xmlData);
-                    if (error) {
-                        // dataRow.result = `${error.code}: ${error.description}`;
-                        dataRow.result = `${error.description}`;
-                        statusMessageString += ` - <B class="api-error" style="color: red;">${error.description}</B>`; // 'red' stripped out by sanitizer - TODO
+                    const apiMsg = this.parseXmlResponse(xmlData);
+                    console.log('*** apiMsg', apiMsg);
+                    dataRow.result = apiMsg?.result || '';
+                    console.log('*** ************** dataRow.result', dataRow.result);
+                    if (apiMsg) {
+                        dataRow.response = `${apiMsg.description}`;
+                        // dataRow.result = apiMsg.result === 'success' ? '' : 'X';
+                        statusMessageString += ` - <B class="api-error" style="color: red;">${apiMsg.description}</B>`; // 'red' stripped out by sanitizer - TODO
                     }
-
                     else {
-                        dataRow.result = `${xmlData}`
+                        dataRow.response = `${xmlData}`
                         statusMessageString += ` - ${xmlData}`;
                     }
                 }
@@ -93,6 +95,7 @@ export class StatusProcessor {
                 if (dataRow) {
                     dataRow.fleet = `<b>Fleet not found</b>`;
                     statusMessageString += ` - <B class="api-error" style="color: red;">Fleet not found for IMO</B>`; // 'red' stripped out by sanitizer - TODO
+                    dataRow.result = 'error';
                 }
                 else {
                     console.log(`<b>*** IMO Not found! ${fleetImoObj.imo} ???</b>`);
@@ -108,13 +111,32 @@ export class StatusProcessor {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlData, "text/xml");
 
+        // Check for success response
+        const successElement = xmlDoc.querySelector('SUCCESS');
+        if (successElement) {
+            const code = successElement.getAttribute('CODE');
+            const description = successElement.getAttribute('DESCRIPTION');
+            return {
+                code: code || '',
+                description: description || '',
+                result: 'success'
+            };
+        }
+        /*
+        <RESPONSE>
+            <STATUS>
+                <SUCCESS CODE="s7" DESCRIPTION="FLEET ITEM UPDATED"/>
+            </STATUS>
+        </RESPONSE>
+        */
         const errorElement = xmlDoc.querySelector('ERROR');
         if (errorElement) {
             const code = errorElement.getAttribute('CODE');
             const description = errorElement.getAttribute('DESCRIPTION');
             return {
                 code: code || '',
-                description: description || ''
+                description: description || '',
+                result: 'error'
             };
         }
 

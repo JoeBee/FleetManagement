@@ -12,3 +12,4 @@ alwaysApply: true
 - Use reactive forms where possible.
 - Use Angular Signals where possible.
 - All components should be broken into HTML, CSS and TS files.
+- All styles should go in the corresponding CSS file.

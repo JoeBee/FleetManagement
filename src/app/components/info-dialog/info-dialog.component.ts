@@ -6,6 +6,8 @@ import {
   MatDialogRef
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { DataService } from '../../services/data.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 export enum DialogType {
   FLEET_IMO_LOOKUP = 'fleetImoLookup',
@@ -34,12 +36,14 @@ export interface InfoDialogData {
 })
 export class InfoDialogComponent {
   title = signal('');
-  content = signal('');
+  content = signal<SafeHtml>('');
   showCloseButton = signal(true);
 
   constructor(
     public dialogRef: MatDialogRef<InfoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: InfoDialogData
+    @Inject(MAT_DIALOG_DATA) public data: InfoDialogData,
+    private dataService: DataService,
+    private sanitizer: DomSanitizer
   ) {
     // console.log('* InfoDialogComponent constructor', data);
 
@@ -47,7 +51,7 @@ export class InfoDialogComponent {
     // If direct title/content is provided, use that
     if (data.title && data.content) {
       this.title.set(data.title);
-      this.content.set(data.content);
+      this.content.set(this.sanitizer.bypassSecurityTrustHtml(data.content));
     }
     // Otherwise generate content based on dialog type
     else if (data.type) {
@@ -64,7 +68,7 @@ export class InfoDialogComponent {
         contentText += '...';
         contentText += '\n\n\n';
         contentText += 'This data will be saved to the user\'s browser and will persist across page reloads.';
-        this.content.set(contentText);
+        this.content.set(this.sanitizer.bypassSecurityTrustHtml(contentText));
       }
       else if (data.type === DialogType.SETTINGS) {
         this.title.set('Settings Information');
@@ -72,14 +76,20 @@ export class InfoDialogComponent {
         contentText += '* Should be ~5 fleets in the fleet list. Each with a unique 7 character fleet ID.\n';
         contentText += '\n\n\n';
         contentText += 'Settings are saved to browser storage and will persist across page reloads.';
-        this.content.set(contentText);
+        this.content.set(this.sanitizer.bypassSecurityTrustHtml(contentText));
       }
       else if (data.type === DialogType.DATA) {
         this.title.set('Data Information');
         contentText += 'Enter "to be processed" IMOs here. ';
         contentText += '\n';
+        contentText += `Maximum ${this.dataService.MAX_IMO_COUNT} IMOs.`;
+        contentText += '\n';
         contentText += 'The rest of the columns will be populated automatically upon running the app.';
-        this.content.set(contentText);
+        contentText += '\n\n';
+        contentText += '<span style="color: red;">Warnings:</span>\n';
+        contentText += '<span style="color: red;">- "Remove Successful" will remove all successful results from the data table. there is no undo.\n</span>';
+        contentText += '<span style="color: red;">- "Reset Grid" will clear all data from the data table. there is no undo.\n</span>';
+        this.content.set(this.sanitizer.bypassSecurityTrustHtml(contentText));
       }
       else if (data.type === DialogType.DASHBOARD) {
         this.title.set('Fleet Management Information');
@@ -92,17 +102,17 @@ export class InfoDialogComponent {
         contentText += '4. Dashboard Tab - Select "Action" and click "Set Statuses" to process the data.';
         contentText += '\n\n';
         contentText += 'Results can be viewed on the Data Tab.';
-        this.content.set(contentText);
+        this.content.set(this.sanitizer.bypassSecurityTrustHtml(contentText));
       }
       else {
-        this.content.set('This is the default dialog');
+        this.content.set(this.sanitizer.bypassSecurityTrustHtml('This is the default dialog'));
         this.title.set('Information');
       }
     }
     else {
       // Default values if neither type nor title/content is provided
       this.title.set('Information');
-      this.content.set('No information available.');
+      this.content.set(this.sanitizer.bypassSecurityTrustHtml('No information available.'));
     }
 
     this.showCloseButton.set(data.showCloseButton !== undefined ? data.showCloseButton : true);

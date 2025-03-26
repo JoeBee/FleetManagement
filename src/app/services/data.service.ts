@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 export interface DataTabRowObj {
     rowNumber: number;
     imo: string;
-    fleet: string;
     result: string;
+    fleet: string;
+    response: string;
     urlEndPoint: string;
 }
 
@@ -24,6 +25,7 @@ export interface FleetIDSettingsObj {
 })
 export class DataService {
     private readonly ROOT_URL = "https://services.marinetraffic.com/api/setfleet/";
+    public readonly MAX_IMO_COUNT = 1000;
 
     public imosAry: any[] = []; // Data Tab, IMO column only
     public imoDataColumnsAryObj: DataTabRowObj[] = []; // Data Tab, all columns

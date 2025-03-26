@@ -115,7 +115,6 @@ export class SettingsTabComponent implements OnInit {
 
     // Load fleet entries
     const fleetEntries = this.dataService.fleetFleetId_settingsAryObj;
-    console.log('** ==> refreshSettings', fleetEntries);
     if (fleetEntries.length > 0) {
       this.fleetFleetIdTxtAreaAry = fleetEntries;
       this.fleetEntriesDirty = false;

@@ -64,8 +64,19 @@ export class DashboardTabComponent implements OnInit {
       second: '2-digit',
       fractionalSecondDigits: 2
     });
-    this.statusMessage = '<br>Start Processing - ' + displayStartTime + '<br>';
 
+    let actionText = '';
+    if (this.selectedAction === 'delete:1') {
+      actionText = 'Remove Vessels From Fleet';
+    } else if (this.selectedAction === 'active:0') {
+      actionText = 'Make Vessels Inactive';
+    } else if (this.selectedAction === 'active:1') {
+      actionText = 'Activate Vessels';
+    } else {
+      actionText = this.selectedAction;
+    }
+
+    this.statusMessage = '<br>Start Processing - ' + displayStartTime + '<br>' + actionText + '<br>';
     await this.statusProcessor.processStatuses(this.selectedAction);
 
     const endTime = performance.now();
@@ -80,6 +91,7 @@ export class DashboardTabComponent implements OnInit {
     });
     this.statusProcessor.statusUpdated.emit(`Processing Complete ${displayEndtime}    (Elapsed: ${duration} seconds)<br><br>`);
   }
+
 
   // Code run when Dashboard Tab is loaded
   // Called from constructor as well as tabs.component -> onTabChanged

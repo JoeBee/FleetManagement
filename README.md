@@ -159,7 +159,7 @@ interface DataTabRowObj {
     rowNumber: number;
     imo: string;
     fleet: string;
-    result: string;
+    response: string;
     urlEndPoint: string;
 }
 
@@ -265,6 +265,10 @@ The `AppInitializerService` is a crucial service that handles the application's 
    - Works in conjunction with `DataService` and `DataPersistenceService`
    - Ensures data consistency across different storage mechanisms
    - Provides a single point of control for application initialization
+
+## Project Specifics
+- Max number of IMOs set here: DataService.MAX_IMO_COUNT
+
 
 ## Additional Resources
 
