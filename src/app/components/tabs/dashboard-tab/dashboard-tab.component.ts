@@ -89,7 +89,7 @@ export class DashboardTabComponent implements OnInit {
       second: '2-digit',
       fractionalSecondDigits: 2
     });
-    this.statusProcessor.statusUpdated.emit(`Processing Complete ${displayEndtime}    (Elapsed: ${duration} seconds)<br><br>`);
+    this.statusProcessor.statusUpdated.emit(`Processing Complete ${displayEndtime}    (Elapsed: ${duration} seconds)<br>`);
   }
 
 

@@ -58,7 +58,7 @@ export class StatusProcessor {
         for (const fleetImoObj of imoFleetObjAry) {
             loopCount++;
             statusMessageString = '';
-            statusMessageString += `${loopCount}/${imoFleetObjAry.length}. IMO <b>${fleetImoObj.imo}</b>`;
+            statusMessageString += `${loopCount}/${imoFleetObjAry.length}. IMO ${fleetImoObj.imo}`;
             const fleetidObj: FleetIDSettingsObj | undefined = fleetFleetIdSettingsObjAry.find(x => x.fleetNum === fleetImoObj.CALCULATED_fleetNum);
             const dataRow = dataColumns.find(row => row.rowNumber === loopCount);
 
@@ -72,18 +72,16 @@ export class StatusProcessor {
                     // Make HTTP request to urlEndPoint and handle XML response
                     const response = await fetch(urlEndPoint);
                     const xmlData = await response.text();
-                    console.log('*** response', response);
-                    console.log('*** xmlData', xmlData);
-
+                    console.log('* response', response);
+                    console.log('* xmlData', xmlData);
 
                     const apiMsg = this.parseXmlResponse(xmlData);
-                    console.log('*** apiMsg', apiMsg);
+                    console.log('* apiMsg', apiMsg);
                     dataRow.result = apiMsg?.result || '';
-                    console.log('*** ************** dataRow.result', dataRow.result);
                     if (apiMsg) {
                         dataRow.response = `${apiMsg.description}`;
                         // dataRow.result = apiMsg.result === 'success' ? '' : 'X';
-                        statusMessageString += ` - <B class="api-error" style="color: red;">${apiMsg.description}</B>`; // 'red' stripped out by sanitizer - TODO
+                        statusMessageString += ` - ${apiMsg.description}`;
                     }
                     else {
                         dataRow.response = `${xmlData}`
@@ -94,17 +92,23 @@ export class StatusProcessor {
             else {
                 if (dataRow) {
                     dataRow.fleet = `<b>Fleet not found</b>`;
-                    statusMessageString += ` - <B class="api-error" style="color: red;">Fleet not found for IMO</B>`; // 'red' stripped out by sanitizer - TODO
+                    statusMessageString += ` - <B class="api-error">Fleet not found for IMO</B>`; // 'red' stripped out by sanitizer - TODO
                     dataRow.result = 'error';
                 }
                 else {
-                    console.log(`<b>*** IMO Not found! ${fleetImoObj.imo} ???</b>`);
+                    console.log(`<b>IMO Not found! ${fleetImoObj.imo} ???</b>`);
                     statusMessageString += ` - <B class="api-error" style="color: red;">IMO Not found! ${fleetImoObj.imo}</B>`; // 'red' stripped out by sanitizer - TODO
                 }
             }
 
             this.statusUpdated.emit(statusMessageString + '<br>');
         }
+
+        let finalStatusMessageString = `- Successes: ${dataColumns.filter(x => x.result === 'success').length}, 
+        Errors: ${dataColumns.filter(x => x.result === 'error').length} - &nbsp;&nbsp;
+        Total:${dataColumns.length}`;
+
+        this.statusUpdated.emit(finalStatusMessageString + '<br><br>');
     }
 
     private parseXmlResponse(xmlData: string) {
