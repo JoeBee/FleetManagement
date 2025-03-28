@@ -27,7 +27,7 @@ export class DataService {
     private readonly ROOT_URL = "https://services.marinetraffic.com/api/setfleet/";
     public readonly MAX_IMO_COUNT = 1000;
 
-    public imosAry: any[] = []; // Data Tab, IMO column only
+    public imosArray: any[] = []; // Data Tab, IMO column only
     public imoDataColumnsAryObj: DataTabRowObj[] = []; // Data Tab, all columns
 
     // public _fleetImoLookupAryObj: FleetImoLookupObj[] = []; // Fleet Lookup Tab
@@ -39,14 +39,11 @@ export class DataService {
     constructor() {
     }
 
-
-
-
     // -----------------------------------------`
 
     // Data Tab
     updateImoDataCols(imoDataColumns: DataTabRowObj[]) {
-        this.imosAry = imoDataColumns.map(x => x.imo);
+        this.imosArray = imoDataColumns.map(x => x.imo);
         this.imoDataColumnsAryObj = imoDataColumns;
     }
 

@@ -26,15 +26,6 @@ export class DataTabComponent {
 
     this.initializeImoRows();
 
-    // this.imoRows = Array(this.dataService.MAX_IMO_COUNT).fill(null)
-    //   .map((_, index) => ({
-    //     rowNumber: index + 1,
-    //     imo: '',
-    //     fleet: '',
-    //     response: '',
-    //     urlEndPoint: '',
-    //     result: ''  // Can be 'success', 'error', or empty string
-    //   }));
     this.statusProcessor.statusUpdated.subscribe((message: string) => {
       this.statusMessage = this.statusMessage + '\n' + message;
     });
@@ -47,6 +38,12 @@ export class DataTabComponent {
         rowNumber: index + 1,
         imo: '',
       }));
+    this.dataService.imoDataColumnsAryObj = this.imoRows;
+
+    // this.updateImoTableData(this.imoRows); // TODO 3/28/25
+
+    console.log('** imosArray', this.dataService.imosArray);
+    console.log('** imoDataColumnsAryObj', this.dataService.imoDataColumnsAryObj);
   }
 
   getImoCount(): number {
@@ -80,8 +77,8 @@ export class DataTabComponent {
   }
 
   private updateImoTableData() {
-    this.dataService.updateImoDataCols(
-      this.imoRows.filter(row => row.imo.trim() !== ''));
+    let filteredImoRows = this.imoRows.filter(row => row.imo.trim() !== '');
+    this.dataService.updateImoDataCols(filteredImoRows);
   }
 
   refreshData() {
@@ -90,46 +87,27 @@ export class DataTabComponent {
 
   removeSuccessful() {
     // Filter out rows where result indicates success
-    /*
-    fleet: "Fleet 6 (2878621)"
-    imo: "9401960"
-    response: "FLEET ITEM UPDATED"
-    result: "success"
-    rowNumber: 1
-    urlEndPoint: "https://services.marinetraffic.com/api/setfleet//
-
-    */
     let tempImoRows = this.imoRows
       .filter(
         row => !row.result?.includes('success')
           && row.imo != '');
 
     this.initializeImoRows(); // Reset the imoRows array to its original state
-    console.log('**  *************** rownum??? tempImoRows =', tempImoRows);
+    console.log('** rownum??? tempImoRows =', tempImoRows);
     tempImoRows.forEach((row, index) => {
       row.rowNumber = index + 1;
       this.imoRows[index] = row;
     });
 
     // this.imoRows = tempImoRows;
-    this.dataService.imosAry = this.imoRows
+    this.dataService.imosArray = this.imoRows
       .filter(row => row.imo != '')
       .map(row => row.imo);
-    console.log('** this.dataService.imosAry =', this.dataService.imosAry);
+    console.log('** this.dataService.imosArray =', this.dataService.imosArray);
   }
 
   resetGrid() {
     this.initializeImoRows();
-
-    // // Create a single empty row as the initial state
-    // this.imoRows = [{
-    //   rowNumber: 1,
-    //   imo: '',
-    //   result: '',
-    //   fleet: '',
-    //   response: '',
-    //   urlEndPoint: ''
-    // }];
 
     // Clear the status message
     this.statusMessage = '';

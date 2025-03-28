@@ -18,7 +18,7 @@ export class StatusProcessor {
     async processStatuses(selectedAction: string) {
 
         // ** Data Tab - IMOs to be processed **
-        const imosAry: string[] = this.dataService.imosAry;
+        const imosAry: string[] = this.dataService.imosArray;
 
         // ** Fleet/IMO Lookup Tab **
         let fleetImoLookupAry: FleetImoLookupObj[] = [];
